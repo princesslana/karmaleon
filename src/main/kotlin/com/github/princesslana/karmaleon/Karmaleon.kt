@@ -1,7 +1,7 @@
 package com.github.princesslana.karmaleon
 
 import com.github.princesslana.smalld.SmallD
-import org.slf4j.impl.SimpleLogger;
+import org.slf4j.impl.SimpleLogger
 
 fun main(args: Array<String>) {
     if (System.getenv("KRML_DEBUG")?.toBoolean() ?: false) {
