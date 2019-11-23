@@ -5,6 +5,6 @@ import kotlin.test.assertTrue
 
 class SanityTest {
     @Test fun true_shouldBeTrue() {
-        assertTrue(true);
+        assertTrue(true)
     }
 }
