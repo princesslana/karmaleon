@@ -10,6 +10,8 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.github.princesslana:smalld:0.2.0")
+    implementation("org.slf4j:slf4j-simple:1.7.29") 
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
