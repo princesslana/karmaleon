@@ -13,13 +13,7 @@ data class GatewayPayload(
     val op: Long,
     val d: JsonObject,
     val t: String?
-) {
-    fun ifMessageCreate(f: (Message) -> Unit) {
-        if (t == "MESSAGE_CREATE") {
-            f(gson.fromJson<Message>(d))
-        }
-    }
-}
+)
 
 data class Message(
     @SerializedName("channel_id") val channelId: String,
@@ -34,7 +28,11 @@ fun SmallD.post(path: String, payload: Any) {
 
 fun SmallD.onMessageCreate(f: (Message) -> Unit) {
     onGatewayPayload { p ->
-        gson.fromJson<GatewayPayload>(p).ifMessageCreate { f(it) }
+        val jsonp = gson.fromJson<GatewayPayload>(p)
+
+        if (jsonp.t == "MESSAGE_CREATE") {
+            f(gson.fromJson<Message>(jsonp.d))
+        }
     }
 }
 
