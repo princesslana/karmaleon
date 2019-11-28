@@ -1,6 +1,6 @@
 package com.github.princesslana.karmaleon
 
-data class Karma(val to: Snowflake)
+data class Karma(val to: User)
 
 fun Message.toKarma(): Karma? {
     if (!content.startsWith("^helpful")) {
@@ -11,5 +11,5 @@ fun Message.toKarma(): Karma? {
         return null
     }
 
-    return Karma(mentions.get(0).id)
+    return Karma(mentions.get(0))
 }
