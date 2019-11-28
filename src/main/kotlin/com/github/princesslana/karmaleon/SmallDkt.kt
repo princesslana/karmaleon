@@ -4,21 +4,26 @@ import com.github.princesslana.smalld.SmallD
 import com.github.salomonbrys.kotson.fromJson
 import com.github.salomonbrys.kotson.toJson
 import com.google.gson.Gson
-import com.google.gson.JsonObject
+import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
 
 val gson = Gson()
 
+typealias Snowflake = String
+
 data class GatewayPayload(
     val op: Long,
-    val d: JsonObject,
+    val d: JsonElement,
     val t: String?
 )
 
 data class Message(
-    @SerializedName("channel_id") val channelId: String,
-    val content: String
+    @SerializedName("channel_id") val channelId: Snowflake,
+    val content: String,
+    val mentions: List<Mention>
 )
+
+data class Mention(val id: Snowflake)
 
 data class CreateMessage(val content: String)
 
