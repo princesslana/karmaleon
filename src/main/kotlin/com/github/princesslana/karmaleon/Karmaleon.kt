@@ -9,9 +9,9 @@ fun main(args: Array<String>) {
 
     run(System.getenv("KRML_TOKEN")) {
         onMessageCreate { msg ->
-                when (msg.content) {
-                    "^helpful" -> post("/channels/${msg.channelId}/messages", CreateMessage("helpful karma awarded"))
-                }
+            msg.toKarma()?.let {
+                post("/channels/${msg.channelId}/messages", CreateMessage("helpful karma awarded"))
+            }
         }
     }
 }
