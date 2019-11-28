@@ -26,6 +26,6 @@ application {
 
 spotless {
     kotlin {
-        ktlint()
+        ktlint().userData(mapOf("max_line_length" to "88"))
     }
 }
