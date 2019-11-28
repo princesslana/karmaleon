@@ -10,7 +10,8 @@ fun main(args: Array<String>) {
     run(System.getenv("KRML_TOKEN")) {
         onMessageCreate { msg ->
             msg.toKarma()?.let {
-                val response = "**${msg.author.tag}** awarded helpful karma"
+                val response =
+                    "**${msg.author.tag}** awarded helpful karma to **${it.to.tag}**"
                 post("/channels/${msg.channelId}/messages", CreateMessage(response))
             }
         }
