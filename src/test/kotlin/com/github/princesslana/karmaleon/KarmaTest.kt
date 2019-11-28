@@ -32,7 +32,8 @@ class KarmaTest {
 
     @Test
     fun `toKarma when more than one mention should be null`() {
-        val k = mkMessage("^helpful <@123> <@456>", mentions = listOf("123", "456")).toKarma()
+        val k = mkMessage("^helpful <@123> <@456>", mentions = listOf("123", "456"))
+            .toKarma()
 
         assertNull(k)
     }
