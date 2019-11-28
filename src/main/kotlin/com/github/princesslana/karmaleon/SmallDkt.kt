@@ -11,6 +11,11 @@ val gson = Gson()
 
 typealias Snowflake = String
 
+data class User(val username: String, val discriminator: String) {
+    val tag: String
+        get() = "$username#$discriminator"
+}
+
 data class GatewayPayload(
     val op: Long,
     val d: JsonElement,
@@ -18,6 +23,7 @@ data class GatewayPayload(
 )
 
 data class Message(
+    val author: User,
     @SerializedName("channel_id") val channelId: Snowflake,
     val content: String,
     val mentions: List<Mention>
