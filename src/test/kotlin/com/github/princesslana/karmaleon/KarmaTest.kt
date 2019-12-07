@@ -14,22 +14,32 @@ class KarmaTest {
         assertNull(
             dummyMessage.copy(
                 content = "++helpful <@123>", mentions = listOf(dummyUser)
-            ).toKarma())
+            ).toKarma(prefix = "^"))
     }
 
     @Test
     fun `toKarma when no mention should be null`() {
-        assertNull(dummyMessage.copy(content = "^helpful").toKarma())
+        assertNull(dummyMessage.copy(content = "^helpful").toKarma("^"))
     }
 
     @Test
     fun `toKarma when single mention should parse`() {
         val k = dummyMessage.copy(
                 content = "^helpful <@123>", mentions = listOf(dummyUser)
-            ).toKarma()
+            ).toKarma("^")
 
         assertNotNull(k)
-        assertEquals(Karma("123"), k)
+        assertEquals(Karma(dummyUser), k)
+    }
+
+    @Test
+    fun `toKarma when single mention with other prefix should parse`() {
+        val k = dummyMessage.copy(
+                content = "!helpful <@123>", mentions = listOf(dummyUser)
+            ).toKarma("!")
+
+        assertNotNull(k)
+        assertEquals(Karma(dummyUser), k)
     }
 
     @Test
@@ -37,7 +47,7 @@ class KarmaTest {
         val k = dummyMessage.copy(
                 content = "^helpful <@123> <@456>",
                 mentions = listOf(dummyUser, dummyUser.copy(id = "456"))
-            ).toKarma()
+            ).toKarma("^")
 
         assertNull(k)
     }

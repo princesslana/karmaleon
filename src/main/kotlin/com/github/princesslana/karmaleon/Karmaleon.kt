@@ -7,9 +7,11 @@ fun main(args: Array<String>) {
         System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG")
     }
 
+    val prefix = System.getenv("KRML_PREFIX") ?: "^"
+
     run(System.getenv("KRML_TOKEN")) {
         onMessageCreate { msg ->
-            msg.toKarma()?.let {
+            msg.toKarma(prefix)?.let {
                 val response =
                     "**${msg.author.tag}** awarded helpful karma to **${it.to.tag}**"
                 post("/channels/${msg.channelId}/messages", CreateMessage(response))
