@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
         onMessageCreate { msg ->
             msg.toKarma(prefix)?.let {
                 val response =
-                    "**${msg.author.tag}** awarded helpful karma to **${it.to.tag}**"
+                    "**${msg.author.tag}** awarded ${it.type} karma to **${it.to.tag}**"
                 post("/channels/${msg.channelId}/messages", CreateMessage(response))
             }
         }
