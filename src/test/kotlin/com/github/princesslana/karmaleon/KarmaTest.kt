@@ -29,7 +29,7 @@ class KarmaTest {
             ).toKarma("^")
 
         assertNotNull(k)
-        assertEquals(Karma(dummyUser), k)
+        assertEquals(Karma(KarmaType.HELPFUL, dummyUser), k)
     }
 
     @Test
@@ -39,7 +39,7 @@ class KarmaTest {
             ).toKarma("!")
 
         assertNotNull(k)
-        assertEquals(Karma(dummyUser), k)
+        assertEquals(Karma(KarmaType.HELPFUL, dummyUser), k)
     }
 
     @Test
