@@ -9,11 +9,19 @@ fun main(args: Array<String>) {
 
     val prefix = System.getenv("KRML_PREFIX") ?: "^"
 
+    val repository = Repository()
+
     run(System.getenv("KRML_TOKEN")) {
         onMessageCreate { msg ->
             msg.toKarma(prefix)?.let {
+                repository.add(it)
                 val response =
                     "**${msg.author.tag}** awarded ${it.type} karma to **${it.to.tag}**"
+                post("/channels/${msg.channelId}/messages", CreateMessage(response))
+            }
+            if (msg.content == "${prefix}karma") {
+                val response =
+                    "${msg.author.tag} has ${repository.count(msg.author)} karma"
                 post("/channels/${msg.channelId}/messages", CreateMessage(response))
             }
         }
