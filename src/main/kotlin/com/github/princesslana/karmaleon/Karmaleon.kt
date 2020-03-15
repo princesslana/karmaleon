@@ -16,7 +16,8 @@ fun main(args: Array<String>) {
             msg.toKarma(prefix)?.let {
                 repository.add(it)
                 val response =
-                    "**${msg.author.tag}** awarded ${it.type} karma to **${it.to.tag}**"
+                    "1 ${it.type.emoji} awared to " +
+                    "**${it.to.tag}** by **${msg.author.tag}**"
                 post("/channels/${msg.channelId}/messages", CreateMessage(response))
             }
             if (msg.content == "${prefix}karma") {
