@@ -5,7 +5,7 @@ import java.util.Scanner
 import java.util.regex.Pattern
 
 enum class KarmaType(val emoji: String) {
-    HELPFUL("\uD83D\uDC4D");
+    HELPFUL("👍");
 }
 
 data class Karma(val type: KarmaType, val to: User)
