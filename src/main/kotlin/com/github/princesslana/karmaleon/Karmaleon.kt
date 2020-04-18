@@ -14,7 +14,7 @@ fun main(args: Array<String>) {
 
     run(System.getenv("KRML_TOKEN")) {
         onMessageCreate { msg ->
-            val karma = msg.toKarma(prefix)
+            val karma = msg.toKarma()
 
             karma.forEach { repository.add(it) }
 
