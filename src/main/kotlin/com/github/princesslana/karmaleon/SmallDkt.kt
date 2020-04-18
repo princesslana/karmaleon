@@ -23,6 +23,7 @@ data class GatewayPayload(
 )
 
 data class Message(
+    val id: Snowflake,
     val author: User,
     @SerializedName("channel_id") val channelId: Snowflake,
     val content: String,
@@ -33,6 +34,10 @@ data class CreateMessage(val content: String)
 
 fun SmallD.post(path: String, payload: Any) {
     post(path, gson.toJson(payload))
+}
+
+fun SmallD.put(path: String, payload: Any) {
+    put(path, gson.toJson(payload))
 }
 
 fun SmallD.onMessageCreate(f: (Message) -> Unit) {

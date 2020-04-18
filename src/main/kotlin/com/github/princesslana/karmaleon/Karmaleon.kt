@@ -1,5 +1,6 @@
 package com.github.princesslana.karmaleon
 
+import java.net.URLEncoder
 import org.slf4j.impl.SimpleLogger
 
 fun main(args: Array<String>) {
@@ -15,10 +16,11 @@ fun main(args: Array<String>) {
         onMessageCreate { msg ->
             msg.toKarma(prefix)?.let {
                 repository.add(it)
-                val response =
-                    "1 karma awared to " +
-                    "**${it.to.tag}** by **${msg.author.tag}**"
-                post("/channels/${msg.channelId}/messages", CreateMessage(response))
+
+                val emoji = URLEncoder.encode("👍", "utf-8")
+                put("/channels/${msg.channelId}" +
+                    "/messages/${msg.id}/" +
+                    "reactions/$emoji/@me", "")
             }
             if (msg.content == "${prefix}karma") {
                 val response =
