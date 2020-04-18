@@ -25,9 +25,15 @@ fun main(args: Array<String>) {
                     "reactions/$emoji/@me", "")
             }
 
-            if (msg.content == "${prefix}karma") {
-                val response =
-                    "${msg.author.tag} has ${repository.count(msg.author)} karma"
+            if (msg.content.startsWith("${prefix}karma")) {
+                val mentions =
+                    if (msg.mentions.none()) listOf(msg.author)
+                    else msg.mentions.orEmpty()
+
+                val response = mentions.map {
+                    "${it.tag} has ${repository.count(it)} karma"
+                }.joinToString(separator = "\n")
+
                 post("/channels/${msg.channelId}/messages", CreateMessage(response))
             }
         }
