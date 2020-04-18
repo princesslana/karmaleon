@@ -9,42 +9,42 @@ class KarmaTest {
     val dummyMessage = Message("1", dummyUser.copy(id = "789"), "1", "", listOf())
 
     @Test
-    fun `toKarma when wrong prefix should be null`() {
+    fun `toKarma when no thanks should be none`() {
         assertTrue(
             dummyMessage.copy(
-                content = "++helpful <@123>", mentions = listOf(dummyUser)
-            ).toKarma(prefix = "^").none())
+                content = "that was pretty helpful <@123>", mentions = listOf(dummyUser)
+            ).toKarma().none())
     }
 
     @Test
-    fun `toKarma when no mention should be null`() {
-        assertTrue(dummyMessage.copy(content = "^helpful").toKarma("^").none())
+    fun `toKarma when no mention should be none`() {
+        assertTrue(dummyMessage.copy(content = "thanks").toKarma().none())
     }
 
     @Test
     fun `toKarma when single mention should parse`() {
         val k = dummyMessage.copy(
-                content = "^helpful <@123>", mentions = listOf(dummyUser)
-            ).toKarma("^")
+                content = "ty <@123>", mentions = listOf(dummyUser)
+            ).toKarma()
 
         assertEquals(listOf(Karma(dummyUser)), k)
     }
 
     @Test
-    fun `toKarma when single mention with other prefix should parse`() {
+    fun `toKarma when single mention with other thanks should parse`() {
         val k = dummyMessage.copy(
-                content = "!helpful <@123>", mentions = listOf(dummyUser)
-            ).toKarma("!")
+                content = "thank you <@123>", mentions = listOf(dummyUser)
+            ).toKarma()
 
         assertEquals(listOf(Karma(dummyUser)), k)
     }
 
     @Test
-    fun `toKarma when more than one mention should be null`() {
+    fun `toKarma when more than one mention should give multiple karma`() {
         val k = dummyMessage.copy(
-                content = "^helpful <@123> <@456>",
+                content = "thanks <@123> <@456>",
                 mentions = listOf(dummyUser, dummyUser.copy(id = "456"))
-            ).toKarma("^")
+            ).toKarma()
 
         assertEquals(listOf(Karma(dummyUser), Karma(dummyUser.copy(id = "456"))), k)
     }
