@@ -4,25 +4,20 @@ import java.util.NoSuchElementException
 import java.util.Scanner
 import java.util.regex.Pattern
 
-enum class KarmaType(val emoji: String) {
-    HELPFUL("👍");
-}
-
-data class Karma(val type: KarmaType, val to: User)
+data class Karma(val to: User)
 
 fun Message.toKarma(prefix: String): Karma? {
     val s = Scanner(content)
 
     try {
         s.skip(Pattern.quote(prefix))
-
-        val type = enumValueOf<KarmaType>(s.next().toUpperCase())
+        s.skip("helpful")
 
         if (mentions.size != 1) {
             return null
         }
 
-        return Karma(type, mentions.get(0))
+        return Karma(mentions.get(0))
     } catch (e: IllegalArgumentException) {
         return null
     } catch (e: NoSuchElementException) {
