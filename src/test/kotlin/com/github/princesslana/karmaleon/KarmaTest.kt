@@ -6,7 +6,7 @@ import kotlin.test.assertTrue
 
 class KarmaTest {
     val dummyUser = User("123", "Username", "1234")
-    val dummyMessage = Message("1", dummyUser, "1", "", listOf())
+    val dummyMessage = Message("1", dummyUser.copy(id = "789"), "1", "", listOf())
 
     @Test
     fun `toKarma when wrong prefix should be null`() {
