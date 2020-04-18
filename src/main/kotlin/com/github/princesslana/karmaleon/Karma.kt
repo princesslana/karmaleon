@@ -13,7 +13,7 @@ fun Message.toKarma(prefix: String): Collection<Karma> {
         s.skip(Pattern.quote(prefix))
         s.skip("helpful")
 
-        return mentions.map { Karma(it) }
+        return mentions.filter { author.id != it.id }.map { Karma(it) }
     } catch (e: IllegalArgumentException) {
         return emptyList<Karma>()
     } catch (e: NoSuchElementException) {
