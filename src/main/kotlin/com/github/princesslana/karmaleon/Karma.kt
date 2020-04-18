@@ -6,21 +6,17 @@ import java.util.regex.Pattern
 
 data class Karma(val to: User)
 
-fun Message.toKarma(prefix: String): Karma? {
+fun Message.toKarma(prefix: String): Collection<Karma> {
     val s = Scanner(content)
 
     try {
         s.skip(Pattern.quote(prefix))
         s.skip("helpful")
 
-        if (mentions.size != 1) {
-            return null
-        }
-
-        return Karma(mentions.get(0))
+        return mentions.map { Karma(it) }
     } catch (e: IllegalArgumentException) {
-        return null
+        return emptyList<Karma>()
     } catch (e: NoSuchElementException) {
-        return null
+        return emptyList<Karma>()
     }
 }
