@@ -2,8 +2,7 @@ package com.github.princesslana.karmaleon
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class KarmaTest {
     val dummyUser = User("123", "Username", "1234")
@@ -11,15 +10,15 @@ class KarmaTest {
 
     @Test
     fun `toKarma when wrong prefix should be null`() {
-        assertNull(
+        assertTrue(
             dummyMessage.copy(
                 content = "++helpful <@123>", mentions = listOf(dummyUser)
-            ).toKarma(prefix = "^"))
+            ).toKarma(prefix = "^").none())
     }
 
     @Test
     fun `toKarma when no mention should be null`() {
-        assertNull(dummyMessage.copy(content = "^helpful").toKarma("^"))
+        assertTrue(dummyMessage.copy(content = "^helpful").toKarma("^").none())
     }
 
     @Test
@@ -28,8 +27,7 @@ class KarmaTest {
                 content = "^helpful <@123>", mentions = listOf(dummyUser)
             ).toKarma("^")
 
-        assertNotNull(k)
-        assertEquals(Karma(dummyUser), k)
+        assertEquals(listOf(Karma(dummyUser)), k)
     }
 
     @Test
@@ -38,8 +36,7 @@ class KarmaTest {
                 content = "!helpful <@123>", mentions = listOf(dummyUser)
             ).toKarma("!")
 
-        assertNotNull(k)
-        assertEquals(Karma(dummyUser), k)
+        assertEquals(listOf(Karma(dummyUser)), k)
     }
 
     @Test
@@ -49,6 +46,6 @@ class KarmaTest {
                 mentions = listOf(dummyUser, dummyUser.copy(id = "456"))
             ).toKarma("^")
 
-        assertNull(k)
+        assertEquals(listOf(Karma(dummyUser), Karma(dummyUser.copy(id = "456"))), k)
     }
 }

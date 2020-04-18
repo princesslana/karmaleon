@@ -14,14 +14,17 @@ fun main(args: Array<String>) {
 
     run(System.getenv("KRML_TOKEN")) {
         onMessageCreate { msg ->
-            msg.toKarma(prefix)?.let {
-                repository.add(it)
+            val karma = msg.toKarma(prefix)
 
+            karma.forEach { repository.add(it) }
+
+            if (!karma.none()) {
                 val emoji = URLEncoder.encode("👍", "utf-8")
                 put("/channels/${msg.channelId}" +
                     "/messages/${msg.id}/" +
                     "reactions/$emoji/@me", "")
             }
+
             if (msg.content == "${prefix}karma") {
                 val response =
                     "${msg.author.tag} has ${repository.count(msg.author)} karma"
