@@ -60,7 +60,7 @@ fun main(args: Array<String>) {
 
     val prefix = System.getenv("KRML_PREFIX") ?: "^"
 
-    val repository = Repository()
+    val repository = Repository.load()
 
     run(System.getenv("KRML_TOKEN")) {
         val karmaleon = Karmaleon(this, prefix, repository)
