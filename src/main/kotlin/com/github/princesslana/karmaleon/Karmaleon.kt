@@ -13,8 +13,11 @@ class Karmaleon(val smalld: SmallD, val prefix: String, val repository: Reposito
     fun onMessageCreate(msg: Message) {
         issueKarma(msg)
 
-        if (msg.content.startsWith("${prefix}karma")) {
-            displayKarma(msg)
+        val command = msg.content.split("\\s".toRegex()).firstOrNull() ?: ""
+
+        when (command) {
+            "${prefix}karma" -> displayKarma(msg)
+            "${prefix}leaderboard" -> displayLeaderboard(msg)
         }
     }
 
@@ -25,10 +28,12 @@ class Karmaleon(val smalld: SmallD, val prefix: String, val repository: Reposito
 
         if (!karma.none()) {
             val emoji = URLEncoder.encode("👍", "utf-8")
-            smalld.put(
-                "/channels/${msg.channelId}" +
-                "/messages/${msg.id}/" +
-                "reactions/$emoji/@me", "")
+            reliablyAsync {
+                smalld.put(
+                    "/channels/${msg.channelId}" +
+                    "/messages/${msg.id}/" +
+                    "reactions/$emoji/@me", "")
+            }
         }
     }
 
@@ -41,7 +46,21 @@ class Karmaleon(val smalld: SmallD, val prefix: String, val repository: Reposito
             "${it.tag} has ${repository.count(it)} karma"
         }.joinToString(separator = "\n")
 
-        smalld.post("/channels/${msg.channelId}/messages", CreateMessage(response))
+        sendReply(msg, response)
+    }
+
+    fun displayLeaderboard(msg: Message) {
+        val response = repository.leaderboard().map { (who, count) ->
+            "${who.tag}: $count"
+        }.joinToString(separator = "\n")
+
+        sendReply(msg, response)
+    }
+
+    fun sendReply(msg: Message, response: String) {
+        reliablyAsync {
+            smalld.post("/channels/${msg.channelId}/messages", CreateMessage(response))
+        }
     }
 
     fun reliablyAsync(f: () -> Unit) {
