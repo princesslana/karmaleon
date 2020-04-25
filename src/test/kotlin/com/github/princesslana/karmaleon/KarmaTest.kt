@@ -1,12 +1,16 @@
 package com.github.princesslana.karmaleon
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class KarmaTest {
     val dummyUser = User("123", "Username", "1234")
-    val dummyMessage = Message("1", dummyUser.copy(id = "789"), "1", "", listOf())
+    val dummyFrom = dummyUser.copy(id = "789")
+    val dummyChannelId = "000"
+    val dummyMessage = Message("1", dummyFrom, dummyChannelId, "", listOf())
+
+    fun karma(to: User): Karma {
+        return Karma(to, dummyFrom, dummyChannelId)
+    }
 
     @Test
     fun `toKarma when no thanks should be none`() {
@@ -27,7 +31,7 @@ class KarmaTest {
                 content = "ty <@123>", mentions = listOf(dummyUser)
             ).toKarma()
 
-        assertEquals(listOf(Karma(dummyUser)), k)
+        assertEquals(listOf(karma(dummyUser)), k)
     }
 
     @Test
@@ -36,7 +40,7 @@ class KarmaTest {
                 content = "thank you <@123>", mentions = listOf(dummyUser)
             ).toKarma()
 
-        assertEquals(listOf(Karma(dummyUser)), k)
+        assertEquals(listOf(karma(dummyUser)), k)
     }
 
     @Test
@@ -46,6 +50,6 @@ class KarmaTest {
                 mentions = listOf(dummyUser, dummyUser.copy(id = "456"))
             ).toKarma()
 
-        assertEquals(listOf(Karma(dummyUser), Karma(dummyUser.copy(id = "456"))), k)
+        assertEquals(listOf(karma(dummyUser), karma(dummyUser.copy(id = "456"))), k)
     }
 }
