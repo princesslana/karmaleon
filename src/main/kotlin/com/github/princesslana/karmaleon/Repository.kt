@@ -32,4 +32,13 @@ class Repository private constructor(val file: File) {
     fun count(who: User): Int {
         return events.filter { it.to.id == who.id }.size
     }
+
+    fun leaderboard(): List<Pair<User, Int>> {
+        return events
+            .groupingBy { it.to }
+            .eachCount()
+            .toList()
+            .sortedByDescending { it.second }
+            .take(10)
+    }
 }
