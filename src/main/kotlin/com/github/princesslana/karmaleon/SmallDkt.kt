@@ -6,6 +6,7 @@ import com.github.salomonbrys.kotson.toJson
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 val gson = Gson()
 
@@ -27,7 +28,8 @@ data class Message(
     val author: User,
     @SerializedName("channel_id") val channelId: Snowflake,
     val content: String,
-    val mentions: List<User>
+    val mentions: List<User>,
+    val timestamp: Date
 )
 
 data class CreateMessage(val content: String)

@@ -1,11 +1,14 @@
 package com.github.princesslana.karmaleon
 
 import com.github.salomonbrys.kotson.fromJson
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.io.File
 
 class Repository private constructor(val file: File) {
-    val gson = Gson()
+    val gson = GsonBuilder()
+        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+        .create()
+
     val events = mutableListOf<Karma>()
 
     companion object Factory {
