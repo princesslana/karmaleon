@@ -1,6 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm").version("1.3.50")
-    id("com.diffplug.gradle.spotless").version("3.26.0")
+    id("com.diffplug.gradle.spotless").version("3.28.1")
     application
 }
 
@@ -27,7 +27,16 @@ application {
 }
 
 spotless {
+    val version = "0.36.0"
+    val config = mapOf(
+        "max_line_length" to "88",
+        "disabled_rules" to "no-wildcard-imports")
+
     kotlin {
-        ktlint().userData(mapOf("max_line_length" to "88", "disabled_rules" to "no-wildcard-imports"))
+        ktlint(version).userData(config)
+    }
+    kotlinGradle {
+        target("build.gradle.kts")
+        ktlint(version).userData(config)
     }
 }
