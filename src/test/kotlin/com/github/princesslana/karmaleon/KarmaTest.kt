@@ -1,15 +1,19 @@
 package com.github.princesslana.karmaleon
 
+import java.util.Date
 import kotlin.test.*
 
 class KarmaTest {
     val dummyUser = User("123", "Username", "1234")
     val dummyFrom = dummyUser.copy(id = "789")
     val dummyChannelId = "000"
-    val dummyMessage = Message("1", dummyFrom, dummyChannelId, "", listOf())
+    val dummyMessageId = "111"
+    val now = Date()
+    val dummyMessage = Message(dummyMessageId, dummyFrom, dummyChannelId, "",
+        listOf(), now)
 
     fun karma(to: User): Karma {
-        return Karma(to, dummyFrom, dummyChannelId)
+        return Karma(to, dummyFrom, dummyChannelId, dummyMessageId, now)
     }
 
     @Test
