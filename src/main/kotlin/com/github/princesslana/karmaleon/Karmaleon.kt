@@ -4,6 +4,7 @@ import com.github.michaelbull.retry.*
 import com.github.michaelbull.retry.policy.*
 import com.github.michaelbull.retry.policy.limitAttempts
 import com.github.princesslana.smalld.SmallD
+import java.io.File
 import java.net.URLEncoder
 import kotlinx.coroutines.*
 import org.slf4j.impl.SimpleLogger
@@ -78,8 +79,9 @@ fun main(args: Array<String>) {
     }
 
     val prefix = System.getenv("KRML_PREFIX") ?: "^"
+    val file = System.getenv("KRML_DATA") ?: "karma.json"
 
-    val repository = Repository.load()
+    val repository = Repository.load(File(file))
 
     run(System.getenv("KRML_TOKEN")) {
         val karmaleon = Karmaleon(this, prefix, repository)
