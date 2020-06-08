@@ -12,6 +12,9 @@ RUN ./gradlew --no-daemon shadowJar
 
 FROM openjdk:11-jre
 WORKDIR /var/app
+RUN mkdir /var/data
+
+ENV KRML_DATA=/var/data/karma.json
 
 COPY --from=build /var/src/build/libs/karmaleon-all.jar .
 
