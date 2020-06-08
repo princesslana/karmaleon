@@ -1,0 +1,6 @@
+.dockerignore
+.git
+build
+Dockerfile
+karma.json
+tags

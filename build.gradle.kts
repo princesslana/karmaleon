@@ -2,6 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm").version("1.3.50")
     id("com.diffplug.gradle.spotless").version("3.28.1")
     application
+    id("com.github.johnrengelman.shadow").version("5.2.0")
 }
 
 repositories {
