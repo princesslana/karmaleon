@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.github.princesslana:smalld:0.2.5")
+    implementation("com.github.princesslana:smalld:0.2.6")
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
     implementation("com.google.code.gson:gson:2.8.0")
     implementation("org.slf4j:slf4j-simple:1.7.29")
